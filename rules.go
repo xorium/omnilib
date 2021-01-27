@@ -12,9 +12,9 @@ type RuleData struct {
 }
 
 type RuleRelation struct {
-	Company *CompanyData  `jsonapi:"relation,company"`
-	Devices []*DeviceData `jsonapi:"relation,devices"`
-	//params
+	Company *CompanyData     `jsonapi:"relation,company"`
+	Devices []*DeviceData    `jsonapi:"relation,devices"`
+	Params  []*ParameterData `jsonapi:"relation,params"`
 }
 
 type Rule struct {

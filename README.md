@@ -4,23 +4,63 @@ Go library for working with OmniManage.
 This library is still a work in progress
 
 ##Functionality Supported
-**Devices**
+**Company**
+- Get One
+- Get list
+
+**Parameter**
+- Get One
+- Get list
+
+**Device**
 - Get One
 - Get list
 
 **Device group**
-- Get One
-- Get list
-
-**Company**
+//Filters??
+//relation for User
 - Get One
 - Get list
 
 **Token**
 - Get New
 
-**Other**
-...
+**Location**
+only struct
+
+**Rule**
+only struct
+
+**Device-model**
+only struct
+
+**Manufacturer**
+none
+
+**Role**
+none
+
+**Websocket channel**
+none
+
+**User**
+none
+
+**Notification**
+none
+
+**Converter**
+none
+
+**Subscription**
+none
+
+**Event sessions**
+none
+
+**Event**
+none
+
 
 ##Example
 Get Device list:

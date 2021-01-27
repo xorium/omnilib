@@ -35,20 +35,17 @@ func OmniServer(w http.ResponseWriter, r *http.Request) {
   "included": []
 }
 `
-	case r.RequestURI == "/companies/":
-		payload = TestDataCompany[r.RequestURI]
-	case r.RequestURI == "/companies/2/":
+	case r.RequestURI == "/companies/" || r.RequestURI == "/companies/2/":
 		payload = TestDataCompany[r.RequestURI]
 
-	case r.RequestURI == "/companies/2/devices/":
-		payload = TestDataDevice[r.RequestURI]
-	case r.RequestURI == "/companies/@all/devices/2/":
+	case r.RequestURI == "/companies/2/devices/" || r.RequestURI == "/companies/@all/devices/2/":
 		payload = TestDataDevice[r.RequestURI]
 
-	case r.RequestURI == "/companies/2/device-groups/":
+	case r.RequestURI == "/companies/2/device-groups/" || r.RequestURI == "/companies/@all/device-groups/4/":
 		payload = TestDataDeviceGroup[r.RequestURI]
-	case r.RequestURI == "/companies/@all/device-groups/4/":
-		payload = TestDataDeviceGroup[r.RequestURI]
+
+	case r.RequestURI == "/parameters/" || r.RequestURI == "/parameters/1/":
+		payload = TestDataParameter[r.RequestURI]
 
 	default:
 		w.WriteHeader(http.StatusInternalServerError)
