@@ -25,7 +25,7 @@ var TestDataParameter = map[string]string{
 			"desc": "descr1",
 			"type": "float",
 			"isValuesSetFinite": true,
-			"info": {}
+			"info": {"info1": "info111"}
 		  }
 		},
 		{
@@ -37,7 +37,7 @@ var TestDataParameter = map[string]string{
 			"desc": "descr2",
 			"type": "float",
 			"isValuesSetFinite": true,
-			"info": {}
+			"info": {"info1": "info111"}
 		  }
 		}
 	],
@@ -61,7 +61,7 @@ var TestDataParameter = map[string]string{
 		  "desc": "descr1",
 		  "type": "float",
 		  "isValuesSetFinite": true,
-		  "info": {}
+		  "info": {"info1": "info111"}
 		}
 	  },
 	  "included": []

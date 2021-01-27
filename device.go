@@ -32,7 +32,7 @@ type DeviceRelation struct {
 	Model    *DeviceModelData   `jsonapi:"relation,model"`
 	Location *LocationData      `jsonapi:"relation,location"`
 	Groups   []*DeviceGroupData `jsonapi:"relation,groups"`
-	Parent   *Device            `jsonapi:"relation,parent"`
+	Parent   *DeviceData        `jsonapi:"relation,parent"`
 	Rules    []*RuleData        `jsonapi:"relation,rules"`
 }
 

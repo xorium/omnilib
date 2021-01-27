@@ -1,14 +1,14 @@
 package omnimlib
 
 type RuleData struct {
-	ID    int    `jsonapi:"primary,rules"`
-	Title string `jsonapi:"attr,title"`
-	Slug  string `jsonapi:"attr,slug"`
-	//Expression ??
-	Duration          int    `jsonapi:"attr,duration"`
-	EventLevel        string `jsonapi:"attr,eventLevel"`
-	EventSessionState string `jsonapi:"attr,eventSessionState"`
-	RuleGroup         string `jsonapi:"attr,ruleGroup"`
+	ID                int                    `jsonapi:"primary,rules"`
+	Title             string                 `jsonapi:"attr,title"`
+	Slug              string                 `jsonapi:"attr,slug"`
+	Expression        map[string]interface{} `jsonapi:"attr,expression"`
+	Duration          int                    `jsonapi:"attr,duration"`
+	EventLevel        string                 `jsonapi:"attr,eventLevel"`
+	EventSessionState string                 `jsonapi:"attr,eventSessionState"`
+	RuleGroup         string                 `jsonapi:"attr,ruleGroup"`
 }
 
 type RuleRelation struct {

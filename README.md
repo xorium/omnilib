@@ -17,8 +17,6 @@ This library is still a work in progress
 - Get list
 
 **Device group**
-//Filters??
-//relation for User
 - Get One
 - Get list
 
@@ -38,13 +36,14 @@ only struct
 none
 
 **Role**
-none
+only struct
 
 **Websocket channel**
 none
 
 **User**
-none
+- Get One
+- Get list
 
 **Notification**
 none
@@ -53,7 +52,7 @@ none
 none
 
 **Subscription**
-none
+only struct
 
 **Event sessions**
 none

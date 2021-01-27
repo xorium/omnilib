@@ -5,17 +5,17 @@ import (
 )
 
 type DeviceGroupData struct {
-	ID          int    `jsonapi:"primary,deviceGroups"`
-	Name        string `jsonapi:"attr,name"`
-	Description string `jsonapi:"attr,desc"`
-	Type        string `jsonapi:"attr,type"`
-	//Filters     []string `jsonapi:"attr,filters"`
+	ID          int                    `jsonapi:"primary,deviceGroups"`
+	Name        string                 `jsonapi:"attr,name"`
+	Description string                 `jsonapi:"attr,desc"`
+	Type        string                 `jsonapi:"attr,type"`
+	Filters     map[string]interface{} `jsonapi:"attr,filters"`
 }
 
 type DeviceGroupRelation struct {
 	Company *CompanyData  `jsonapi:"relation,company"`
 	Devices []*DeviceData `jsonapi:"relation,devices"`
-	//USER??
+	User    *UserData     `jsonapi:"relation,user"`
 }
 
 type DeviceGroup struct {

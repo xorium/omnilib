@@ -8,7 +8,8 @@ import (
 )
 
 var TestDataDeviceGroup = map[string]string{
-	"/companies/2/device-groups/": `{
+	"/companies/2/device-groups/": `
+{
   "meta": {},
   "links": {},
   "data": [
@@ -19,7 +20,9 @@ var TestDataDeviceGroup = map[string]string{
         "name": "Сварочная группа",
         "desc": "aaa",
         "type": "BUSINESS",
-        "filters": {}
+        "filters": {
+          "aaaa": "bbbbb"
+        }
       },
       "relationships": {
         "company": {
@@ -27,6 +30,15 @@ var TestDataDeviceGroup = map[string]string{
             "id": "2",
             "type": "companies"
           }
+        },
+        "user": {
+          "data": {
+            "id": "1",
+            "type": "users",
+            "meta": {}
+          },
+          "links": {},
+          "meta": {}
         },
         "devices": {
           "data": [
@@ -49,7 +61,9 @@ var TestDataDeviceGroup = map[string]string{
         "name": "СТП сварочная группа",
         "desc": "bbbb",
         "type": "BUSINESS",
-        "filters": {}
+        "filters": {
+          "aaaa": "bbbbb"
+        }
       },
       "relationships": {
         "company": {
@@ -57,6 +71,15 @@ var TestDataDeviceGroup = map[string]string{
             "id": "2",
             "type": "companies"
           }
+        },
+        "user": {
+          "data": {
+            "id": "1",
+            "type": "users",
+            "meta": {}
+          },
+          "links": {},
+          "meta": {}
         },
         "devices": {
           "data": [
@@ -147,6 +170,20 @@ var TestDataDeviceGroup = map[string]string{
           }
         }
       }
+    },
+    {
+      "id": "1",
+      "type": "users",
+      "attributes": {
+        "userName": "test",
+        "password": "d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db",
+        "firstName": "Пользователь",
+        "lastName": "Тестовый",
+        "phoneNumber": "+79013801845",
+        "email": "testemail",
+        "image": "aaaa.jpg",
+        "settings": {}
+      }
     }
   ]
 }
@@ -195,7 +232,7 @@ var TestDataDeviceGroup = map[string]string{
       },
       "user": {
         "data": {
-          "id": "string",
+          "id": "1",
           "type": "users",
           "meta": {}
         },
@@ -290,7 +327,21 @@ var TestDataDeviceGroup = map[string]string{
           }
         }
       }
-    }
+      },
+	  {
+		  "id": "1",
+		  "type": "users",
+		  "attributes": {
+			"userName": "test",
+			"password": "d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db",
+			"firstName": "Пользователь",
+			"lastName": "Тестовый",
+			"phoneNumber": "+79013801845",
+			"email": "testemail",
+			"image": "aaaa.jpg",
+			"settings": {}
+      		}
+    	}
   ]
 }
 `,
