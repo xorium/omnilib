@@ -7,34 +7,8 @@ import (
 	"time"
 )
 
-const ValidToken = "12345"
-
-func OmniServer(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-
-	var payload string
-	switch {
-	case r.RequestURI == "/tokens/":
-		payload = `
-{
-  "meta": {},
-  "links": {
-    "self": null,
-    "related": null
-  },
-  "data": {
-    "id": "7357",
-    "type": "tokens",
-    "meta": {},
-    "attributes": {
-      "value": "12345"
-    }
-  },
-  "included": []
-}
-`
-	case r.RequestURI == "/companies/":
-		payload = `
+var TestDataCompany = map[string]string{
+	"/companies/": `
 {
   "meta": {},
   "links": {},
@@ -63,17 +37,26 @@ func OmniServer(w http.ResponseWriter, r *http.Request) {
   ],
   "included": []
 }
-`
-
-	default:
-		w.WriteHeader(http.StatusInternalServerError)
-	}
-
-	w.Write([]byte(payload))
+`,
+	"/companies/2/": `
+{
+			"meta": {},
+			"links": {},
+			"data": {
+			"id": "2",
+				"type": "companies",
+				"attributes": {
+				"name": "Sespel"
+			}
+		},
+			"included": []
+		}
+`,
 }
 
 func TestCompanyService_GetList(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(OmniServer))
+	defer ts.Close()
 
 	c, err := NewClient(&ClientConfig{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
 	if err != nil {
@@ -92,21 +75,56 @@ func TestCompanyService_GetList(t *testing.T) {
 		return
 	}
 
+	for _, v := range rec {
+		err = IfHasEmptyField(v.Data)
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+			return
+		}
+	}
+
 	t.Logf("\nresult: %#v", rec)
 }
 
 func TestCompanyService_Get(t *testing.T) {
-	c, err := NewClient(nil, &AuthConfig{WithAuthorization: false})
+	ts := httptest.NewServer(http.HandlerFunc(OmniServer))
+	defer ts.Close()
+
+	c, err := NewClient(&ClientConfig{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 		return
 	}
 
-	rec, err := c.Company.Get(5)
+	rec, err := c.Company.Get(2)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 		return
 	}
 
 	t.Logf("\nresult: %#v", rec)
+
+	err = IfHasEmptyField(rec.Data)
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+		return
+	}
+}
+
+func TestCompanyService_GetNotFound(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(OmniServerNotFound))
+	defer ts.Close()
+
+	c, err := NewClient(&ClientConfig{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+		return
+	}
+
+	_, err = c.Company.Get(2)
+	if err == nil {
+		t.Errorf("expected error, got nil")
+		return
+	}
+
 }

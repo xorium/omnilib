@@ -33,7 +33,7 @@ type DeviceRelation struct {
 	Location *LocationData      `jsonapi:"relation,location"`
 	Groups   []*DeviceGroupData `jsonapi:"relation,groups"`
 	Parent   *Device            `jsonapi:"relation,parent"`
-	//rules
+	Rules    []*RuleData        `jsonapi:"relation,rules"`
 }
 
 type Device struct {

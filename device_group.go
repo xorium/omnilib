@@ -13,9 +13,9 @@ type DeviceGroupData struct {
 }
 
 type DeviceGroupRelation struct {
-	Company *CompanyData `jsonapi:"relation,company"`
-	//User
+	Company *CompanyData  `jsonapi:"relation,company"`
 	Devices []*DeviceData `jsonapi:"relation,devices"`
+	//USER??
 }
 
 type DeviceGroup struct {
