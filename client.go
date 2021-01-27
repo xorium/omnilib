@@ -42,6 +42,7 @@ type Client struct {
 	DeviceGroup  *DeviceGroupService
 	Parameter    *ParameterService
 	User         *UserService
+	Location     *LocationService
 }
 
 type Source struct {
@@ -104,6 +105,7 @@ func NewClient(conf *ClientConfig, auth *AuthConfig) (*Client, error) {
 	c.DeviceGroup = &DeviceGroupService{client: c}
 	c.Parameter = &ParameterService{client: c}
 	c.User = &UserService{client: c}
+	c.Location = &LocationService{client: c}
 	return c, nil
 }
 

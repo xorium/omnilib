@@ -5,26 +5,27 @@ import (
 )
 
 type DeviceData struct {
-	ID          int    `jsonapi:"primary,devices"`
-	Name        string `jsonapi:"attr,name"`
-	Slug        string `jsonapi:"attr,slug"`
-	Title       string `jsonapi:"attr,title"`
-	Description string `jsonapi:"attr,desc"`
-	Kind        string `jsonapi:"attr,kind"`
-	Info        struct {
-		ToolsNum     int `jsonapi:"attr,toolsNum"`
-		OperatorsNum int `jsonapi:"attr,operatorsNum"`
-		Connection   struct {
-			IP                 string `jsonapi:"attr,ip"`
-			Port               int    `jsonapi:"attr,port"`
-			ConnectingInterval int    `jsonapi:"attr,connecting_interval"`
-			PingTimeoutSec     int    `jsonapi:"attr,ping_timeout_sec"`
-			RecvLengthByte     int    `jsonapi:"attr,recv_length_byte"`
-			RecvTerminator     string `jsonapi:"attr,recv_terminator"`
-		} `jsonapi:"attr,connection"`
-	} `jsonapi:"attr,info"`
+	ID          int                    `jsonapi:"primary,devices"`
+	Name        string                 `jsonapi:"attr,name"`
+	Slug        string                 `jsonapi:"attr,slug"`
+	Title       string                 `jsonapi:"attr,title"`
+	Description string                 `jsonapi:"attr,desc"`
+	Kind        string                 `jsonapi:"attr,kind"`
+	Info        map[string]interface{} `jsonapi:"attr,info"`
+	Image       string                 `jsonapi:"attr,image"`
 
-	Image string `jsonapi:"attr,image"`
+	//Info        struct {
+	//	ToolsNum     int `jsonapi:"attr,toolsNum"`
+	//	OperatorsNum int `jsonapi:"attr,operatorsNum"`
+	//	Connection   struct {
+	//		IP                 string `jsonapi:"attr,ip"`
+	//		Port               int    `jsonapi:"attr,port"`
+	//		ConnectingInterval int    `jsonapi:"attr,connecting_interval"`
+	//		PingTimeoutSec     int    `jsonapi:"attr,ping_timeout_sec"`
+	//		RecvLengthByte     int    `jsonapi:"attr,recv_length_byte"`
+	//		RecvTerminator     string `jsonapi:"attr,recv_terminator"`
+	//	} `jsonapi:"attr,connection"`
+	//} `jsonapi:"attr,info"`
 }
 
 type DeviceRelation struct {

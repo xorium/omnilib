@@ -24,7 +24,8 @@ This library is still a work in progress
 - Get New
 
 **Location**
-only struct
+- Get One
+- Get list
 
 **Rule**
 only struct

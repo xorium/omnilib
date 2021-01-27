@@ -50,6 +50,9 @@ func OmniServer(w http.ResponseWriter, r *http.Request) {
 	case r.RequestURI == "/companies/5/users/" || r.RequestURI == "/companies/@all/users/1/":
 		payload = TestDataUser[r.RequestURI]
 
+	case r.RequestURI == "/companies/2/locations/" || r.RequestURI == "/companies/@all/locations/1/":
+		payload = TestDataLocation[r.RequestURI]
+
 	default:
 		w.WriteHeader(http.StatusInternalServerError)
 	}
