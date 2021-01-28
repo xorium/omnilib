@@ -1,4 +1,4 @@
-package omnimlib
+package client
 
 type NotificationData struct {
 	ID        int                    `jsonapi:"primary,users"`

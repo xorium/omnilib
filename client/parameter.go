@@ -1,4 +1,4 @@
-package omnimlib
+package client
 
 type ParameterData struct {
 	ID                int                    `jsonapi:"primary,parameters"`

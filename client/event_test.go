@@ -1,4 +1,4 @@
-package omnimlib
+package client
 
 //func TestEventService_GetList(t *testing.T) {
 //	ts := httptest.NewServer(http.HandlerFunc(OmniServer))

@@ -1,8 +1,4 @@
-package omnimlib
-
-import (
-	"strconv"
-)
+package models
 
 type DeviceData struct {
 	ID          int                    `jsonapi:"primary,devices"`
@@ -42,30 +38,21 @@ type Device struct {
 	Relations *DeviceRelation
 }
 
-type DeviceService struct {
-	client *Client
+type DeviceGroupData struct {
+	ID          int                    `jsonapi:"primary,deviceGroups"`
+	Name        string                 `jsonapi:"attr,name"`
+	Description string                 `jsonapi:"attr,desc"`
+	Type        string                 `jsonapi:"attr,type"`
+	Filters     map[string]interface{} `jsonapi:"attr,filters"`
 }
 
-func (s *DeviceService) GetList(companyId int) ([]Device, error) {
-	sources, err := s.client.getSourceMultiple(
-		"/companies/"+strconv.Itoa(companyId)+"/devices/",
-		&Source{Data: new(DeviceData), Relations: new(DeviceRelation)},
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	var devsOut []Device
-	err = s.client.sourceSliceToOut(sources, &devsOut)
-
-	return devsOut, nil
+type DeviceGroupRelation struct {
+	Company *CompanyData  `jsonapi:"relation,company"`
+	Devices []*DeviceData `jsonapi:"relation,devices"`
+	User    *UserData     `jsonapi:"relation,user"`
 }
 
-func (s *DeviceService) Get(id int) (*Device, error) {
-	devData := new(DeviceData)
-	devRel := new(DeviceRelation)
-	if err := s.client.getSourceSingle(id, "/companies/@all/devices/", &Source{Data: devData, Relations: devRel}); err != nil {
-		return nil, err
-	}
-	return &Device{devData, devRel}, nil
+type DeviceGroup struct {
+	Data      *DeviceGroupData
+	Relations *DeviceGroupRelation
 }

@@ -1,4 +1,4 @@
-package omnimlib
+package client
 
 import (
 	"bytes"

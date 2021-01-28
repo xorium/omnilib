@@ -1,4 +1,4 @@
-package omnimlib
+package client
 
 type DeviceModelData struct {
 	ID          int    `jsonapi:"primary,deviceModels"`

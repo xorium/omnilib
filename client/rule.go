@@ -1,4 +1,4 @@
-package omnimlib
+package client
 
 type RuleData struct {
 	ID                int                    `jsonapi:"primary,rules"`

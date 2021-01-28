@@ -1,4 +1,4 @@
-package omnimlib
+package client
 
 type CompanyData struct {
 	ID   int    `jsonapi:"primary,companies"`

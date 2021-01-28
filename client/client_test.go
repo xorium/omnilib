@@ -1,9 +1,10 @@
-package omnimlib
+package client
 
 import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"omnilib"
 	"reflect"
 	"testing"
 	"time"
@@ -48,7 +49,7 @@ func OmniServer(w http.ResponseWriter, r *http.Request) {
 		payload = TestDataParameter[r.RequestURI]
 
 	case r.RequestURI == "/companies/5/users/" || r.RequestURI == "/companies/@all/users/1/":
-		payload = TestDataUser[r.RequestURI]
+		payload = omnimlib.TestDataUser[r.RequestURI]
 
 	case r.RequestURI == "/companies/2/locations/" || r.RequestURI == "/companies/@all/locations/1/":
 		payload = TestDataLocation[r.RequestURI]
