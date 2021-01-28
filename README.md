@@ -28,44 +28,48 @@ This library is still a work in progress
 - Get list
 
 **Rule**
-only struct
+only struct (no data in omimanage)
 
 **Device-model**
-only struct
+no data in omnimanage => no tests
 
 **Manufacturer**
-none
+- Get One
+- Get list
 
 **Role**
-only struct
+- Get One
+- Get list
 
 **Websocket channel**
-none
+//??????
 
 **User**
 - Get One
 - Get list
 
 **Notification**
-none
+only struct (???), no data
 
-**Converter**
-none
+**Conversion**
+//??????
 
 **Subscription**
-only struct
-
-**Event sessions**
-none
+- Get One
+- Get list
 
 **Event**
-none
+no data in omnimanage => no tests
+
+**Event sessions**
+- Get One
+- Get list
 
 
 ##Example
 Get Device list:
 ```go
-cli, err := NewClient(nil, nil)
+cli, err := NewClient(nil, nil) //nil params == default settings
 if err != nil {
 //..
 }
@@ -76,7 +80,7 @@ if err != nil {
 ```
 Get single device by Id:
 ```go
-cli, err := NewClient(nil, nil)
+cli, err := NewClient(nil, nil) //nil params == default settings
 if err != nil {
 //..
 }

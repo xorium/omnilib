@@ -17,7 +17,7 @@ type UserData struct {
 type UserRelation struct {
 	Company       *CompanyData        `jsonapi:"relation,company"`
 	Location      *LocationData       `jsonapi:"relation,location"`
-	Roles         []*RolesData        `jsonapi:"relation,roles"`
+	Roles         []*RoleData         `jsonapi:"relation,roles"`
 	Subscriptions []*SubscriptionData `jsonapi:"relation,subscriptions"`
 }
 

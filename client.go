@@ -36,13 +36,19 @@ type Client struct {
 	config   ClientConfig
 	authData AuthData
 
-	TokenService *TokenService
-	Company      *CompanyService
-	Device       *DeviceService
-	DeviceGroup  *DeviceGroupService
-	Parameter    *ParameterService
-	User         *UserService
-	Location     *LocationService
+	TokenService  *TokenService
+	Company       *CompanyService
+	Device        *DeviceService
+	DeviceGroup   *DeviceGroupService
+	Parameter     *ParameterService
+	User          *UserService
+	Location      *LocationService
+	Role          *RoleService
+	Subscription  *SubscriptionService
+	Manufacturer  *ManufacturerService
+	DeviceModel   *DeviceModelService
+	Event         *EventService
+	EventsSession *EventsSessionService
 }
 
 type Source struct {
@@ -106,6 +112,12 @@ func NewClient(conf *ClientConfig, auth *AuthConfig) (*Client, error) {
 	c.Parameter = &ParameterService{client: c}
 	c.User = &UserService{client: c}
 	c.Location = &LocationService{client: c}
+	c.Role = &RoleService{client: c}
+	c.Subscription = &SubscriptionService{client: c}
+	c.Manufacturer = &ManufacturerService{client: c}
+	c.DeviceModel = &DeviceModelService{client: c}
+	c.Event = &EventService{client: c}
+	c.EventsSession = &EventsSessionService{client: c}
 	return c, nil
 }
 
