@@ -118,6 +118,7 @@ func NewClient(conf *Config, auth *AuthConfig) (*Client, error) {
 	c.DeviceModel = &DeviceModelService{client: c}
 	c.Event = &EventService{client: c}
 	c.EventsSession = &EventsSessionService{client: c}
+
 	return c, nil
 }
 
@@ -131,24 +132,46 @@ func (c *Client) getSourceSingle(id int, sourcePath string, val *Source) error {
 		return err
 	}
 
+	err = UnmarshalPayload(payload, val)
+	if err != nil {
+		c.log.Error(err)
+		return err
+	}
+	return nil
+}
+
+func UnmarshalPayload(payload []byte, val *Source) error {
 	if val.Data != nil {
-		err = jsonapi.UnmarshalPayload(bytes.NewReader(payload), val.Data)
+		err := jsonapi.UnmarshalPayload(bytes.NewReader(payload), val.Data)
 		if err != nil {
-			c.log.Errorf("Cant unmarshal payload: %v", err)
 			return fmt.Errorf("Cant unmarshal payload %v", err)
 		}
 	}
 
 	if val.Relations != nil {
-		err = jsonapi.UnmarshalPayload(bytes.NewReader(payload), val.Relations)
+		err := jsonapi.UnmarshalPayload(bytes.NewReader(payload), val.Relations)
 		if err != nil {
-			c.log.Errorf("Cant unmarshal payload: %v", err)
 			return fmt.Errorf("Cant unmarshal payload %v", err)
 		}
 	}
 
 	return nil
 }
+
+//func MarshalPayload(val *Source) ([]byte,error) {
+//	payloadData, err := jsonapi.Marshal(val.Data)
+//	if err != nil{
+//		return nil, err
+//	}
+//
+//	//var onePayload *jsonapi.OnePayload
+//	onePayloadData, ok := payloadData.(*jsonapi.OnePayload)
+//	if !ok {
+//		return nil, fmt.Errorf("cant marshal data: wrong result")
+//	}
+//	onePayloadData.Data.
+//	return nil, nil
+//}
 
 func (c *Client) getSourceMultiple(sourcePath string, sourceSingleRow *Source) ([]Source, error) {
 
@@ -157,11 +180,20 @@ func (c *Client) getSourceMultiple(sourcePath string, sourceSingleRow *Source) (
 		return nil, err
 	}
 
+	res, err := UnmarshalManyPayload(payload, sourceSingleRow)
+	if err != nil {
+		c.log.Error(err)
+		return nil, err
+	}
+	return res, nil
+}
+
+func UnmarshalManyPayload(payload []byte, sourceSingleRow *Source) ([]Source, error) {
 	var recordsData []interface{}
+	var err error
 	if sourceSingleRow.Data != nil {
 		recordsData, err = jsonapi.UnmarshalManyPayload(bytes.NewReader(payload), reflect.TypeOf(sourceSingleRow.Data))
 		if err != nil {
-			c.log.Errorf("Cant unmarshal payload: %v", err)
 			return nil, fmt.Errorf("Cant unmarshal payload: %v", err)
 		}
 	}
@@ -170,7 +202,6 @@ func (c *Client) getSourceMultiple(sourcePath string, sourceSingleRow *Source) (
 	if sourceSingleRow.Relations != nil {
 		recordsRel, err = jsonapi.UnmarshalManyPayload(bytes.NewReader(payload), reflect.TypeOf(sourceSingleRow.Relations))
 		if err != nil {
-			c.log.Errorf("Cant unmarshal payload: %v", err)
 			return nil, fmt.Errorf("Cant unmarshal payload: %v", err)
 		}
 	}
