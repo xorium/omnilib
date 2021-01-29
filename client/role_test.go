@@ -1,6 +1,7 @@
 package client
 
 import (
+	"github.com/google/jsonapi"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -105,7 +106,7 @@ func TestRoleService_GetList(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(OmniServer))
 	defer ts.Close()
 
-	c, err := NewClient(&ClientConfig{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
+	c, err := NewClient(&Config{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
 	//c, err := NewClient(nil, nil)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
@@ -144,7 +145,7 @@ func TestRoleService_Get(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(OmniServer))
 	defer ts.Close()
 
-	c, err := NewClient(&ClientConfig{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
+	c, err := NewClient(&Config{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 		return
@@ -157,6 +158,18 @@ func TestRoleService_Get(t *testing.T) {
 	}
 
 	t.Logf("\nresult: %#v", rec)
+
+	err = IfHasEmptyField(rec)
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+		return
+	}
+
+	_, err = jsonapi.Marshal(rec)
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+		return
+	}
 
 	err = IfHasEmptyField(rec.Data)
 	if err != nil {

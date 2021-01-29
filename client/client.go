@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-type ClientConfig struct {
+type Config struct {
 	BaseURL string
 	TimeOut time.Duration
 
@@ -33,7 +33,7 @@ type AuthData struct {
 
 type Client struct {
 	log      *zap.SugaredLogger
-	config   ClientConfig
+	config   Config
 	authData AuthData
 
 	TokenService  *TokenService
@@ -61,7 +61,7 @@ type ReqOptions struct {
 	Args        map[string]string
 }
 
-var DefaultConfig = ClientConfig{
+var DefaultConfig = Config{
 	BaseURL: "https://omnimanage.omnicube.ru", //"http://172.26.1.80:8082",
 	TimeOut: 5 * time.Second,
 
@@ -77,7 +77,7 @@ var DefaultAuth = AuthConfig{
 //NewClient Create new client.
 //conf - optional. If conf == nil => DefaultConfig
 //auth - optional. If auth == nil => DefaultAuth
-func NewClient(conf *ClientConfig, auth *AuthConfig) (*Client, error) {
+func NewClient(conf *Config, auth *AuthConfig) (*Client, error) {
 	config := DefaultConfig
 	if conf != nil {
 		config = *conf

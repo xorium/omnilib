@@ -1,45 +1,31 @@
 package client
 
-type DeviceModelData struct {
-	ID          int    `jsonapi:"primary,deviceModels"`
-	Name        string `jsonapi:"attr,name"`
-	Title       string `jsonapi:"attr,title"`
-	Description string `jsonapi:"attr,desc"`
-}
-
-type DeviceModelRelation struct {
-	Manufacturer *ManufacturerData `jsonapi:"relation,manufacturer"`
-}
-
-type DeviceModel struct {
-	Data      *DeviceModelData
-	Relations *DeviceModelRelation
-}
+import "omnilib/models"
 
 type DeviceModelService struct {
 	client *Client
 }
 
-func (s *DeviceModelService) GetList() ([]DeviceModel, error) {
+func (s *DeviceModelService) GetList() ([]models.DeviceModel, error) {
 	sources, err := s.client.getSourceMultiple(
 		"/device-models/",
-		&Source{Data: new(DeviceModelData), Relations: new(DeviceModelRelation)},
+		&Source{Data: new(models.DeviceModelData), Relations: new(models.DeviceModelRelation)},
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	var out []DeviceModel
+	var out []models.DeviceModel
 	err = s.client.sourceSliceToOut(sources, &out)
 
 	return out, nil
 }
 
-func (s *DeviceModelService) Get(id int) (*DeviceModel, error) {
-	data := new(DeviceModelData)
-	rel := new(DeviceModelRelation)
+func (s *DeviceModelService) Get(id int) (*models.DeviceModel, error) {
+	data := new(models.DeviceModelData)
+	rel := new(models.DeviceModelRelation)
 	if err := s.client.getSourceSingle(id, "/device-models/", &Source{Data: data, Relations: rel}); err != nil {
 		return nil, err
 	}
-	return &DeviceModel{data, rel}, nil
+	return &models.DeviceModel{data, rel}, nil
 }

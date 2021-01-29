@@ -9,19 +9,6 @@ type DeviceData struct {
 	Kind        string                 `jsonapi:"attr,kind"`
 	Info        map[string]interface{} `jsonapi:"attr,info"`
 	Image       string                 `jsonapi:"attr,image"`
-
-	//Info        struct {
-	//	ToolsNum     int `jsonapi:"attr,toolsNum"`
-	//	OperatorsNum int `jsonapi:"attr,operatorsNum"`
-	//	Connection   struct {
-	//		IP                 string `jsonapi:"attr,ip"`
-	//		Port               int    `jsonapi:"attr,port"`
-	//		ConnectingInterval int    `jsonapi:"attr,connecting_interval"`
-	//		PingTimeoutSec     int    `jsonapi:"attr,ping_timeout_sec"`
-	//		RecvLengthByte     int    `jsonapi:"attr,recv_length_byte"`
-	//		RecvTerminator     string `jsonapi:"attr,recv_terminator"`
-	//	} `jsonapi:"attr,connection"`
-	//} `jsonapi:"attr,info"`
 }
 
 type DeviceRelation struct {
@@ -55,4 +42,20 @@ type DeviceGroupRelation struct {
 type DeviceGroup struct {
 	Data      *DeviceGroupData
 	Relations *DeviceGroupRelation
+}
+
+type DeviceModelData struct {
+	ID          int    `jsonapi:"primary,deviceModels"`
+	Name        string `jsonapi:"attr,name"`
+	Title       string `jsonapi:"attr,title"`
+	Description string `jsonapi:"attr,desc"`
+}
+
+type DeviceModelRelation struct {
+	Manufacturer *ManufacturerData `jsonapi:"relation,manufacturer"`
+}
+
+type DeviceModel struct {
+	Data      *DeviceModelData
+	Relations *DeviceModelRelation
 }

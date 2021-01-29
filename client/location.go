@@ -1,49 +1,34 @@
 package client
 
-import "strconv"
-
-type LocationData struct {
-	ID       int                    `jsonapi:"primary,locations"`
-	Name     string                 `jsonapi:"attr,name"`
-	Timezone string                 `jsonapi:"attr,timezone"`
-	Info     map[string]interface{} `jsonapi:"attr,info"`
-}
-
-type LocationRelation struct {
-	Company  *CompanyData    `jsonapi:"relation,company"`
-	Children []*LocationData `jsonapi:"relation,children"`
-	Users    []*UserData     `jsonapi:"relation,users"`
-}
-
-type Location struct {
-	Data      *LocationData
-	Relations *LocationRelation
-}
+import (
+	"omnilib/models"
+	"strconv"
+)
 
 type LocationService struct {
 	client *Client
 }
 
-func (s *LocationService) GetList(companyId int) ([]Location, error) {
+func (s *LocationService) GetList(companyId int) ([]models.Location, error) {
 	sources, err := s.client.getSourceMultiple(
 		"/companies/"+strconv.Itoa(companyId)+"/locations/",
-		&Source{Data: new(LocationData), Relations: new(LocationRelation)},
+		&Source{Data: new(models.LocationData), Relations: new(models.LocationRelation)},
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	var out []Location
+	var out []models.Location
 	err = s.client.sourceSliceToOut(sources, &out)
 
 	return out, nil
 }
 
-func (s *LocationService) Get(id int) (*Location, error) {
-	data := new(LocationData)
-	rel := new(LocationRelation)
+func (s *LocationService) Get(id int) (*models.Location, error) {
+	data := new(models.LocationData)
+	rel := new(models.LocationRelation)
 	if err := s.client.getSourceSingle(id, "/companies/@all/locations/", &Source{Data: data, Relations: rel}); err != nil {
 		return nil, err
 	}
-	return &Location{data, rel}, nil
+	return &models.Location{data, rel}, nil
 }

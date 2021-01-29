@@ -1,55 +1,34 @@
 package client
 
-import "strconv"
-
-type UserData struct {
-	ID          int                    `jsonapi:"primary,users"`
-	Name        string                 `jsonapi:"attr,userName"`
-	Password    string                 `jsonapi:"attr,firstName"`
-	FirstName   string                 `jsonapi:"attr,userName"`
-	LastName    string                 `jsonapi:"attr,lastName"`
-	PhoneNumber string                 `jsonapi:"attr,phoneNumber"`
-	Email       string                 `jsonapi:"attr,email"`
-	Image       string                 `jsonapi:"attr,image"`
-	Settings    map[string]interface{} `jsonapi:"attr,settings"`
-}
-
-type UserRelation struct {
-	Company       *CompanyData        `jsonapi:"relation,company"`
-	Location      *LocationData       `jsonapi:"relation,location"`
-	Roles         []*RoleData         `jsonapi:"relation,roles"`
-	Subscriptions []*SubscriptionData `jsonapi:"relation,subscriptions"`
-}
-
-type User struct {
-	Data      *UserData
-	Relations *UserRelation
-}
+import (
+	"omnilib/models"
+	"strconv"
+)
 
 type UserService struct {
 	client *Client
 }
 
-func (s *UserService) GetList(companyId int) ([]User, error) {
+func (s *UserService) GetList(companyId int) ([]models.User, error) {
 	sources, err := s.client.getSourceMultiple(
 		"/companies/"+strconv.Itoa(companyId)+"/users/",
-		&Source{Data: new(UserData), Relations: new(UserRelation)},
+		&Source{Data: new(models.UserData), Relations: new(models.UserRelation)},
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	var out []User
+	var out []models.User
 	err = s.client.sourceSliceToOut(sources, &out)
 
 	return out, nil
 }
 
-func (s *UserService) Get(id int) (*User, error) {
-	data := new(UserData)
-	rel := new(UserRelation)
+func (s *UserService) Get(id int) (*models.User, error) {
+	data := new(models.UserData)
+	rel := new(models.UserRelation)
 	if err := s.client.getSourceSingle(id, "/companies/@all/users/", &Source{Data: data, Relations: rel}); err != nil {
 		return nil, err
 	}
-	return &User{data, rel}, nil
+	return &models.User{data, rel}, nil
 }

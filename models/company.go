@@ -7,4 +7,6 @@ type CompanyData struct {
 
 type Company struct {
 	Data *CompanyData
+
+	//*CompanyData
 }

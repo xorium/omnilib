@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"omnilib"
 	"reflect"
 	"testing"
 	"time"
@@ -49,7 +48,7 @@ func OmniServer(w http.ResponseWriter, r *http.Request) {
 		payload = TestDataParameter[r.RequestURI]
 
 	case r.RequestURI == "/companies/5/users/" || r.RequestURI == "/companies/@all/users/1/":
-		payload = omnimlib.TestDataUser[r.RequestURI]
+		payload = TestDataUser[r.RequestURI]
 
 	case r.RequestURI == "/companies/2/locations/" || r.RequestURI == "/companies/@all/locations/1/":
 		payload = TestDataLocation[r.RequestURI]
@@ -143,7 +142,7 @@ func TestClient_NoAuth(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(OmniServerNoAuth))
 	defer ts.Close()
 
-	_, err := NewClient(&ClientConfig{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
+	_, err := NewClient(&Config{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
 	if err == nil {
 		t.Errorf("expected error, got nil")
 		return

@@ -1,37 +1,31 @@
 package client
 
-type CompanyData struct {
-	ID   int    `jsonapi:"primary,companies"`
-	Name string `jsonapi:"attr,name"`
-}
-
-type Company struct {
-	Data *CompanyData
-}
+import "omnilib/models"
 
 type CompanyService struct {
 	client *Client
 }
 
-func (s *CompanyService) GetList() ([]Company, error) {
+func (s *CompanyService) GetList() ([]models.Company, error) {
 
 	sources, err := s.client.getSourceMultiple("/companies/",
-		&Source{Data: new(CompanyData)},
+		&Source{Data: new(models.CompanyData)},
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	var outSlice []Company
+	var outSlice []models.Company
 	err = s.client.sourceSliceToOut(sources, &outSlice)
 
 	return outSlice, nil
 }
 
-func (s *CompanyService) Get(id int) (*Company, error) {
-	comp := new(CompanyData)
+func (s *CompanyService) Get(id int) (*models.Company, error) {
+	comp := new(models.CompanyData)
+
 	if err := s.client.getSourceSingle(id, "/companies/", &Source{Data: comp}); err != nil {
 		return nil, err
 	}
-	return &Company{Data: comp}, nil
+	return &models.Company{Data: comp}, nil
 }

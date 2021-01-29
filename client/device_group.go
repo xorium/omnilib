@@ -1,6 +1,7 @@
 package client
 
 import (
+	"omnilib/models"
 	"strconv"
 )
 
@@ -8,26 +9,26 @@ type DeviceGroupService struct {
 	client *Client
 }
 
-func (s *DeviceGroupService) GetList(companyId int) ([]DeviceGroup, error) {
+func (s *DeviceGroupService) GetList(companyId int) ([]models.DeviceGroup, error) {
 	sources, err := s.client.getSourceMultiple(
 		"/companies/"+strconv.Itoa(companyId)+"/device-groups/",
-		&Source{Data: new(DeviceGroupData), Relations: new(DeviceGroupRelation)},
+		&Source{Data: new(models.DeviceGroupData), Relations: new(models.DeviceGroupRelation)},
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	var devsOut []DeviceGroup
+	var devsOut []models.DeviceGroup
 	err = s.client.sourceSliceToOut(sources, &devsOut)
 
 	return devsOut, nil
 }
 
-func (s *DeviceGroupService) Get(id int) (*DeviceGroup, error) {
-	devData := new(DeviceGroupData)
-	devRel := new(DeviceGroupRelation)
+func (s *DeviceGroupService) Get(id int) (*models.DeviceGroup, error) {
+	devData := new(models.DeviceGroupData)
+	devRel := new(models.DeviceGroupRelation)
 	if err := s.client.getSourceSingle(id, "/companies/@all/device-groups/", &Source{Data: devData, Relations: devRel}); err != nil {
 		return nil, err
 	}
-	return &DeviceGroup{devData, devRel}, nil
+	return &models.DeviceGroup{devData, devRel}, nil
 }

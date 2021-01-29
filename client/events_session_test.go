@@ -359,7 +359,7 @@ func TestEventSessionService_GetList(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(OmniServer))
 	defer ts.Close()
 
-	c, err := NewClient(&ClientConfig{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
+	c, err := NewClient(&Config{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 		return
@@ -397,7 +397,7 @@ func TestEventsSessionService_Get(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(OmniServer))
 	defer ts.Close()
 
-	c, err := NewClient(&ClientConfig{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
+	c, err := NewClient(&Config{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 		return

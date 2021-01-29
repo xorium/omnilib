@@ -1,9 +1,8 @@
-package omnimlib
+package client
 
 import (
 	"net/http"
 	"net/http/httptest"
-	"omnilib/client"
 	"testing"
 	"time"
 )
@@ -301,10 +300,10 @@ var TestDataUser = map[string]string{
 }
 
 func TestUserService_GetList(t *testing.T) {
-	ts := httptest.NewServer(http.HandlerFunc(client.OmniServer))
+	ts := httptest.NewServer(http.HandlerFunc(OmniServer))
 	defer ts.Close()
 
-	c, err := client.NewClient(&client.ClientConfig{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
+	c, err := NewClient(&Config{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
 
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
@@ -324,13 +323,13 @@ func TestUserService_GetList(t *testing.T) {
 	}
 
 	for _, v := range rec {
-		err = client.IfHasEmptyField(v.Data)
+		err = IfHasEmptyField(v.Data)
 		if err != nil {
 			t.Errorf("Unexpected error: %v", err)
 			return
 		}
 
-		err = client.IfHasEmptyField(v.Relations)
+		err = IfHasEmptyField(v.Relations)
 		if err != nil {
 			t.Errorf("Unexpected error: %v", err)
 			return
@@ -340,10 +339,10 @@ func TestUserService_GetList(t *testing.T) {
 }
 
 func TestUserService_Get(t *testing.T) {
-	ts := httptest.NewServer(http.HandlerFunc(client.OmniServer))
+	ts := httptest.NewServer(http.HandlerFunc(OmniServer))
 	defer ts.Close()
 
-	c, err := client.NewClient(&client.ClientConfig{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
+	c, err := NewClient(&Config{BaseURL: ts.URL, TimeOut: time.Second * 5}, nil)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 		return
@@ -357,13 +356,13 @@ func TestUserService_Get(t *testing.T) {
 
 	t.Logf("\nresult: %#v", rec)
 
-	err = client.IfHasEmptyField(rec.Data)
+	err = IfHasEmptyField(rec.Data)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 		return
 	}
 
-	err = client.IfHasEmptyField(rec.Relations)
+	err = IfHasEmptyField(rec.Relations)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 		return
