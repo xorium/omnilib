@@ -1,19 +1,11 @@
 package models
 
-type SubscriptionData struct {
+type Subscription struct {
 	ID              int                    `jsonapi:"primary,subscriptions"`
 	Title           string                 `jsonapi:"attr,title"`
 	ContactChannels map[string]interface{} `jsonapi:"attr,contactChannels"`
 	Options         map[string]interface{} `jsonapi:"attr,options"`
-}
-
-type SubscriptionRelation struct {
-	Company *CompanyData `jsonapi:"relation,company"`
-	User    *UserData    `jsonapi:"relation,user"`
-	Rules   []*RuleData  `jsonapi:"relation,rules"`
-}
-
-type Subscription struct {
-	Data      *SubscriptionData
-	Relations *SubscriptionRelation
+	Company         *Company               `jsonapi:"relation,company"`
+	User            *User                  `jsonapi:"relation,user"`
+	Rules           []*Rule                `jsonapi:"relation,rules"`
 }

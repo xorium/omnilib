@@ -51,11 +51,6 @@ type Client struct {
 	EventsSession *EventsSessionService
 }
 
-type Source struct {
-	Data      interface{}
-	Relations interface{}
-}
-
 type ReqOptions struct {
 	ContentType string
 	Args        map[string]string
@@ -74,9 +69,9 @@ var DefaultAuth = AuthConfig{
 	Password:          "123",
 }
 
-//NewClient Create new client.
-//conf - optional. If conf == nil => DefaultConfig
-//auth - optional. If auth == nil => DefaultAuth
+// NewClient Create new client.
+// conf - optional. If conf == nil => DefaultConfig
+// auth - optional. If auth == nil => DefaultAuth
 func NewClient(conf *Config, auth *AuthConfig) (*Client, error) {
 	config := DefaultConfig
 	if conf != nil {
@@ -126,13 +121,13 @@ func (c *Client) IfNeedAuth() bool {
 	return c.authData.WithAuthorization
 }
 
-func (c *Client) getSourceSingle(id int, sourcePath string, val *Source) error {
+func (c *Client) getSourceSingle(id int, sourcePath string, model interface{}) error {
 	payload, err := c.doRequest("GET", sourcePath+strconv.Itoa(id)+"/", nil)
 	if err != nil {
 		return err
 	}
 
-	err = UnmarshalPayload(payload, val)
+	err = jsonapi.UnmarshalPayload(bytes.NewReader(payload), model)
 	if err != nil {
 		c.log.Error(err)
 		return err
@@ -140,86 +135,22 @@ func (c *Client) getSourceSingle(id int, sourcePath string, val *Source) error {
 	return nil
 }
 
-func UnmarshalPayload(payload []byte, val *Source) error {
-	if val.Data != nil {
-		err := jsonapi.UnmarshalPayload(bytes.NewReader(payload), val.Data)
-		if err != nil {
-			return fmt.Errorf("Cant unmarshal payload %v", err)
-		}
-	}
-
-	if val.Relations != nil {
-		err := jsonapi.UnmarshalPayload(bytes.NewReader(payload), val.Relations)
-		if err != nil {
-			return fmt.Errorf("Cant unmarshal payload %v", err)
-		}
-	}
-
-	return nil
-}
-
-//func MarshalPayload(val *Source) ([]byte,error) {
-//	payloadData, err := jsonapi.Marshal(val.Data)
-//	if err != nil{
-//		return nil, err
-//	}
-//
-//	//var onePayload *jsonapi.OnePayload
-//	onePayloadData, ok := payloadData.(*jsonapi.OnePayload)
-//	if !ok {
-//		return nil, fmt.Errorf("cant marshal data: wrong result")
-//	}
-//	onePayloadData.Data.
-//	return nil, nil
-//}
-
-func (c *Client) getSourceMultiple(sourcePath string, sourceSingleRow *Source) ([]Source, error) {
+func (c *Client) getSourceMultiple(sourcePath string, modelSingleRow interface{}) ([]interface{}, error) {
 
 	payload, err := c.doRequest("GET", sourcePath, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	res, err := UnmarshalManyPayload(payload, sourceSingleRow)
+	records, err := jsonapi.UnmarshalManyPayload(bytes.NewReader(payload), reflect.TypeOf(modelSingleRow))
 	if err != nil {
 		c.log.Error(err)
 		return nil, err
 	}
-	return res, nil
+	return records, nil
 }
 
-func UnmarshalManyPayload(payload []byte, sourceSingleRow *Source) ([]Source, error) {
-	var recordsData []interface{}
-	var err error
-	if sourceSingleRow.Data != nil {
-		recordsData, err = jsonapi.UnmarshalManyPayload(bytes.NewReader(payload), reflect.TypeOf(sourceSingleRow.Data))
-		if err != nil {
-			return nil, fmt.Errorf("Cant unmarshal payload: %v", err)
-		}
-	}
-
-	var recordsRel []interface{}
-	if sourceSingleRow.Relations != nil {
-		recordsRel, err = jsonapi.UnmarshalManyPayload(bytes.NewReader(payload), reflect.TypeOf(sourceSingleRow.Relations))
-		if err != nil {
-			return nil, fmt.Errorf("Cant unmarshal payload: %v", err)
-		}
-	}
-
-	res := make([]Source, 0, 1)
-	for i, rec := range recordsData {
-		src := Source{}
-		src.Data = rec
-		if recordsRel != nil && len(recordsRel) >= i {
-			src.Relations = recordsRel[i]
-		}
-		res = append(res, src)
-	}
-
-	return res, nil
-}
-
-func (c *Client) sourceSliceToOut(srcSlice []Source, out interface{}) error {
+func (c *Client) sourceSliceToOut(srcSlice []interface{}, out interface{}) error {
 	defer func() {
 		if r := recover(); r != nil {
 			c.log.Errorf("sourceSliceToOut panic: %v", r)
@@ -235,21 +166,7 @@ func (c *Client) sourceSliceToOut(srcSlice []Source, out interface{}) error {
 
 	for i, src := range srcSlice {
 		outRow := outSlice.Index(i)
-
-		if src.Data != nil {
-			field := outRow.FieldByName("Data")
-			if field.IsValid() {
-				field.Set(reflect.ValueOf(src.Data))
-			}
-		}
-
-		if src.Relations != nil {
-			field := outRow.FieldByName("Relations")
-			if field.IsValid() {
-				field.Set(reflect.ValueOf(src.Relations))
-			}
-		}
-
+		outRow.Set(reflect.ValueOf(src))
 	}
 	outRef.Elem().Set(outSlice)
 
@@ -257,7 +174,7 @@ func (c *Client) sourceSliceToOut(srcSlice []Source, out interface{}) error {
 }
 
 func (c *Client) doRequest(method string, requestURI string, opt *ReqOptions) ([]byte, error) {
-	//create request & response
+	// create request & response
 	req := fasthttp.AcquireRequest()
 	resp := fasthttp.AcquireResponse()
 	defer func() {
@@ -265,7 +182,7 @@ func (c *Client) doRequest(method string, requestURI string, opt *ReqOptions) ([
 		fasthttp.ReleaseRequest(req)
 	}()
 
-	//set headers
+	// set headers
 	req.Header.SetMethod(method)
 	req.SetRequestURI(c.config.BaseURL + requestURI)
 
@@ -288,7 +205,7 @@ func (c *Client) doRequest(method string, requestURI string, opt *ReqOptions) ([
 		})
 	}
 
-	//send request
+	// send request
 	err := fasthttp.DoTimeout(req, resp, c.config.TimeOut)
 	if err != nil {
 		c.log.Error("request error", err)
@@ -300,10 +217,10 @@ func (c *Client) doRequest(method string, requestURI string, opt *ReqOptions) ([
 
 	if c.config.Debug {
 		c.log.Debugf("received response: %s", gotils.B2S(resp.Body()))
-		//TODO add timings
+		// TODO add timings
 	}
 
-	//// try to parse error
+	// try to parse error
 	if resp.StatusCode() < fasthttp.StatusOK || resp.StatusCode() >= fasthttp.StatusBadRequest {
 		c.log.Errorf("Errors: %v", resp.Body())
 		errPayload := new(jsonapi.ErrorsPayload)

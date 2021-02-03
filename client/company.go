@@ -6,26 +6,29 @@ type CompanyService struct {
 	client *Client
 }
 
-func (s *CompanyService) GetList() ([]models.Company, error) {
+func (s *CompanyService) GetList() ([]*models.Company, error) {
 
 	sources, err := s.client.getSourceMultiple("/companies/",
-		&Source{Data: new(models.CompanyData)},
+		new(models.Company),
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	var outSlice []models.Company
+	var outSlice []*models.Company
 	err = s.client.sourceSliceToOut(sources, &outSlice)
+	if err != nil {
+		return nil, err
+	}
 
 	return outSlice, nil
 }
 
 func (s *CompanyService) Get(id int) (*models.Company, error) {
-	comp := new(models.CompanyData)
+	model := new(models.Company)
 
-	if err := s.client.getSourceSingle(id, "/companies/", &Source{Data: comp}); err != nil {
+	if err := s.client.getSourceSingle(id, "/companies/", model); err != nil {
 		return nil, err
 	}
-	return &models.Company{Data: comp}, nil
+	return model, nil
 }

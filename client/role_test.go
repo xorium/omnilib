@@ -126,17 +126,12 @@ func TestRoleService_GetList(t *testing.T) {
 	}
 
 	for _, v := range rec {
-		err = IfHasEmptyField(v.Data)
+		err = IfHasEmptyField(v)
 		if err != nil {
 			t.Errorf("Unexpected error: %v", err)
 			return
 		}
 
-		err = IfHasEmptyField(v.Relations)
-		if err != nil {
-			t.Errorf("Unexpected error: %v", err)
-			return
-		}
 	}
 
 }
@@ -171,15 +166,10 @@ func TestRoleService_Get(t *testing.T) {
 		return
 	}
 
-	err = IfHasEmptyField(rec.Data)
+	err = IfHasEmptyField(rec)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 		return
 	}
 
-	err = IfHasEmptyField(rec.Relations)
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-		return
-	}
 }

@@ -1,6 +1,6 @@
 package models
 
-type RuleData struct {
+type Rule struct {
 	ID                int                    `jsonapi:"primary,rules"`
 	Title             string                 `jsonapi:"attr,title"`
 	Slug              string                 `jsonapi:"attr,slug"`
@@ -9,15 +9,7 @@ type RuleData struct {
 	EventLevel        string                 `jsonapi:"attr,eventLevel"`
 	EventSessionState string                 `jsonapi:"attr,eventSessionState"`
 	RuleGroup         string                 `jsonapi:"attr,ruleGroup"`
-}
-
-type RuleRelation struct {
-	Company *CompanyData     `jsonapi:"relation,company"`
-	Devices []*DeviceData    `jsonapi:"relation,devices"`
-	Params  []*ParameterData `jsonapi:"relation,params"`
-}
-
-type Rule struct {
-	Data      *RuleData
-	Relations *RuleRelation
+	Company           *Company               `jsonapi:"relation,company"`
+	Devices           []*Device              `jsonapi:"relation,devices"`
+	Params            []*Parameter           `jsonapi:"relation,params"`
 }

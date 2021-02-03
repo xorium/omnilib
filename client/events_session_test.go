@@ -378,13 +378,7 @@ func TestEventSessionService_GetList(t *testing.T) {
 	}
 
 	for _, v := range rec {
-		err = IfHasEmptyField(v.Data)
-		if err != nil {
-			t.Errorf("Unexpected error: %v", err)
-			return
-		}
-
-		err = IfHasEmptyField(v.Relations)
+		err = IfHasEmptyField(v)
 		if err != nil {
 			t.Errorf("Unexpected error: %v", err)
 			return
@@ -411,15 +405,10 @@ func TestEventsSessionService_Get(t *testing.T) {
 
 	t.Logf("\nresult: %#v", rec)
 
-	err = IfHasEmptyField(rec.Data)
+	err = IfHasEmptyField(rec)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 		return
 	}
 
-	err = IfHasEmptyField(rec.Relations)
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-		return
-	}
 }

@@ -3,7 +3,8 @@ Go library for working with OmniManage.
 
 This library is still a work in progress
 
-##Functionality Supported##
+##Functionality Supported
+
 **Company**
 - Get One
 - Get list
