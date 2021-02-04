@@ -1,7 +1,7 @@
 package models
 
 type Location struct {
-	ID       int                    `jsonapi:"primary,locations"`
+	ID       string                 `jsonapi:"primary,locations"`
 	Name     string                 `jsonapi:"attr,name"`
 	Timezone string                 `jsonapi:"attr,timezone"`
 	Info     map[string]interface{} `jsonapi:"attr,info"`

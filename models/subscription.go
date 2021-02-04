@@ -1,7 +1,7 @@
 package models
 
 type Subscription struct {
-	ID              int                    `jsonapi:"primary,subscriptions"`
+	ID              string                 `jsonapi:"primary,subscriptions"`
 	Title           string                 `jsonapi:"attr,title"`
 	ContactChannels map[string]interface{} `jsonapi:"attr,contactChannels"`
 	Options         map[string]interface{} `jsonapi:"attr,options"`

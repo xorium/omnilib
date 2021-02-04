@@ -1,7 +1,7 @@
 package models
 
 type Event struct {
-	ID           int                    `jsonapi:"primary,events"`
+	ID           string                 `jsonapi:"primary,events"`
 	Type         string                 `jsonapi:"attr,type"`
 	Title        string                 `jsonapi:"attr,title"`
 	Time         int                    `jsonapi:"attr,time"`

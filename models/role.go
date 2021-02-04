@@ -1,7 +1,7 @@
 package models
 
 type Role struct {
-	ID         int                    `jsonapi:"primary,roles"`
+	ID         string                 `jsonapi:"primary,roles"`
 	Name       string                 `jsonapi:"attr,name"`
 	Slug       string                 `jsonapi:"attr,slug"`
 	Assigned   bool                   `jsonapi:"attr,assigned"`

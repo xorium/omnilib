@@ -1,7 +1,7 @@
 package models
 
 type Rule struct {
-	ID                int                    `jsonapi:"primary,rules"`
+	ID                string                 `jsonapi:"primary,rules"`
 	Title             string                 `jsonapi:"attr,title"`
 	Slug              string                 `jsonapi:"attr,slug"`
 	Expression        map[string]interface{} `jsonapi:"attr,expression"`

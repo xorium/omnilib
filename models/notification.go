@@ -1,7 +1,7 @@
 package models
 
 type Notification struct {
-	ID           int                    `jsonapi:"primary,users"`
+	ID           string                 `jsonapi:"primary,users"`
 	EventType    string                 `jsonapi:"attr,eventType"`
 	EventTime    int                    `jsonapi:"attr,eventTime"`
 	Info         map[string]interface{} `jsonapi:"attr,info"`

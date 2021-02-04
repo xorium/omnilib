@@ -1,7 +1,7 @@
 package models
 
 type Parameter struct {
-	ID                int                    `jsonapi:"primary,parameters"`
+	ID                string                 `jsonapi:"primary,parameters"`
 	Name              string                 `jsonapi:"attr,name"`
 	Description       string                 `jsonapi:"attr,desc"`
 	Type              string                 `jsonapi:"attr,type"`

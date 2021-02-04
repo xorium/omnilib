@@ -1,7 +1,7 @@
 package models
 
 type Device struct {
-	ID          int                    `jsonapi:"primary,devices"`
+	ID          string                 `jsonapi:"primary,devices"`
 	Name        string                 `jsonapi:"attr,name"`
 	Slug        string                 `jsonapi:"attr,slug"`
 	Title       string                 `jsonapi:"attr,title"`
