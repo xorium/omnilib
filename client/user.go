@@ -1,7 +1,7 @@
 package client
 
 import (
-	"omnilib/models"
+	"gitlab.omnicube.ru/libs/omnilib/models"
 	"strconv"
 )
 
