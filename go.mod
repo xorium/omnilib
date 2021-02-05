@@ -1,4 +1,4 @@
-module gitlab.omnicube.ru/libs/omnilib
+module omnilib
 
 go 1.15
 

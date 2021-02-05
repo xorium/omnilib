@@ -1,6 +1,6 @@
 package client
 
-import "gitlab.omnicube.ru/libs/omnilib/models"
+import "omnilib/models"
 
 type DeviceModelService struct {
 	client *Client
