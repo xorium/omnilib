@@ -2,6 +2,7 @@ package client
 
 import (
 	"omnilib/models"
+	"omnilib/utils/converter"
 	"strconv"
 )
 
@@ -19,7 +20,7 @@ func (s *LocationService) GetList(companyId int) ([]*models.Location, error) {
 	}
 
 	var outSlice []*models.Location
-	err = s.client.sourceSliceToOut(sources, &outSlice)
+	err = converter.SliceI2SliceModel(sources, &outSlice)
 	if err != nil {
 		return nil, err
 	}

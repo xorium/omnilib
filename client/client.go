@@ -150,29 +150,6 @@ func (c *Client) getSourceMultiple(sourcePath string, modelSingleRow interface{}
 	return records, nil
 }
 
-func (c *Client) sourceSliceToOut(srcSlice []interface{}, out interface{}) error {
-	defer func() {
-		if r := recover(); r != nil {
-			c.log.Errorf("sourceSliceToOut panic: %v", r)
-		}
-	}()
-
-	if reflect.TypeOf(out).Elem().Kind() != reflect.Slice {
-		return fmt.Errorf("Out param is not a slice")
-	}
-
-	outRef := reflect.ValueOf(out)
-	outSlice := reflect.MakeSlice(reflect.ValueOf(out).Elem().Type(), len(srcSlice), cap(srcSlice))
-
-	for i, src := range srcSlice {
-		outRow := outSlice.Index(i)
-		outRow.Set(reflect.ValueOf(src))
-	}
-	outRef.Elem().Set(outSlice)
-
-	return nil
-}
-
 func (c *Client) doRequest(method string, requestURI string, opt *ReqOptions) ([]byte, error) {
 	// create request & response
 	req := fasthttp.AcquireRequest()

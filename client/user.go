@@ -2,6 +2,7 @@ package client
 
 import (
 	"omnilib/models"
+	"omnilib/utils/converter"
 	"strconv"
 )
 
@@ -19,7 +20,7 @@ func (s *UserService) GetList(companyId int) ([]*models.User, error) {
 	}
 
 	var outSlice []*models.User
-	err = s.client.sourceSliceToOut(sources, &outSlice)
+	err = converter.SliceI2SliceModel(sources, &outSlice)
 	if err != nil {
 		return nil, err
 	}

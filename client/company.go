@@ -1,6 +1,9 @@
 package client
 
-import "omnilib/models"
+import (
+	"omnilib/models"
+	"omnilib/utils/converter"
+)
 
 type CompanyService struct {
 	client *Client
@@ -16,7 +19,7 @@ func (s *CompanyService) GetList() ([]*models.Company, error) {
 	}
 
 	var outSlice []*models.Company
-	err = s.client.sourceSliceToOut(sources, &outSlice)
+	err = converter.SliceI2SliceModel(sources, &outSlice)
 	if err != nil {
 		return nil, err
 	}

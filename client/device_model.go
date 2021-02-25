@@ -1,6 +1,9 @@
 package client
 
-import "omnilib/models"
+import (
+	"omnilib/models"
+	"omnilib/utils/converter"
+)
 
 type DeviceModelService struct {
 	client *Client
@@ -16,7 +19,7 @@ func (s *DeviceModelService) GetList() ([]*models.DeviceModel, error) {
 	}
 
 	var outSlice []*models.DeviceModel
-	err = s.client.sourceSliceToOut(sources, &outSlice)
+	err = converter.SliceI2SliceModel(sources, &outSlice)
 	if err != nil {
 		return nil, err
 	}
