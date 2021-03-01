@@ -1,7 +1,7 @@
 package client
 
 import (
-	"omnilib/models"
+	models "gitlab.omnicube.ru/omnicube/omninanage/pkg/model/web"
 	"omnilib/utils/converter"
 	"strconv"
 )
