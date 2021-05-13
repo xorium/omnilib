@@ -9,7 +9,7 @@ require (
 	github.com/savsgio/gotils v0.0.0-20210120114113-f9d780dcbd93
 	github.com/stretchr/testify v1.6.1
 	github.com/valyala/fasthttp v1.19.0
-	github.com/xorium/omnimanage v1.0.1
+	github.com/xorium/omnimanage v1.0.7
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.16.0
 

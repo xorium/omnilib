@@ -24,17 +24,13 @@ type AuthConfig struct {
 	WithAuthorization bool //if need authorization
 	Username          string
 	Password          string
-}
-
-type AuthData struct {
-	AuthConfig
-	token string
+	JWT               string
 }
 
 type Client struct {
-	log      *zap.SugaredLogger
-	config   Config
-	authData AuthData
+	log        *zap.SugaredLogger
+	config     Config
+	authConfig AuthConfig
 
 	TokenService  *TokenService
 	Company       *CompanyService
@@ -65,8 +61,8 @@ var DefaultConfig = Config{
 
 var DefaultAuth = AuthConfig{
 	WithAuthorization: true,
-	Username:          "ivan_p",
-	Password:          "123",
+	Username:          "omnilib",
+	Password:          "netcubE1881",
 }
 
 // NewClient Create new client.
@@ -83,19 +79,17 @@ func NewClient(conf *Config, auth *AuthConfig) (*Client, error) {
 		authConf = *auth
 	}
 
-	authData := AuthData{authConf, ""}
-
 	logger, _ := zap.NewProduction()
 	c := &Client{
-		log:      logger.Sugar(),
-		config:   config,
-		authData: authData,
+		log:        logger.Sugar(),
+		config:     config,
+		authConfig: authConf,
 	}
 
 	var err error
 	c.TokenService = &TokenService{client: c}
 	if c.IfNeedAuth() {
-		c.authData.token, err = c.TokenService.GetNew()
+		c.authConfig.JWT, err = c.TokenService.GetNew()
 		if err != nil {
 			return nil, err
 		}
@@ -118,7 +112,7 @@ func NewClient(conf *Config, auth *AuthConfig) (*Client, error) {
 }
 
 func (c *Client) IfNeedAuth() bool {
-	return c.authData.WithAuthorization
+	return c.authConfig.JWT == ""
 }
 
 func (c *Client) getSourceSingle(id int, sourcePath string, model interface{}) error {
@@ -167,7 +161,7 @@ func (c *Client) doRequest(method string, requestURI string, opt *ReqOptions) ([
 		req.Header.SetContentType(opt.ContentType)
 	}
 	if c.IfNeedAuth() {
-		req.Header.Add("Authorization", c.authData.token)
+		req.Header.Add("Authorization", c.authConfig.JWT)
 	}
 
 	if opt != nil && opt.Args != nil {

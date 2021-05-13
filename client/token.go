@@ -21,7 +21,7 @@ func (s *TokenService) GetNew() (string, error) {
 		"/tokens/",
 		&ReqOptions{
 			ContentType: "application/x-www-form-urlencoded",
-			Args:        map[string]string{"username": s.client.authData.Username, "password": s.client.authData.Password},
+			Args:        map[string]string{"username": s.client.authConfig.Username, "password": s.client.authConfig.Password},
 		},
 	)
 	if err != nil {
