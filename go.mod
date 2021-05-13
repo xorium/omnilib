@@ -15,4 +15,4 @@ require (
 
 )
 
-replace github.com/xorium/omnimanage => ../omninanage
+replace github.com/xorium/omnimanage => ../omnimanage
