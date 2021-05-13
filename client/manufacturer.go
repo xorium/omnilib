@@ -1,8 +1,8 @@
 package client
 
 import (
-	models "gitlab.omnicube.ru/omnicube/omninanage/pkg/model/web"
-	"gitlab.omnicube.ru/omnicube/omninanage/pkg/utils/converter"
+	models "github.com/xorium/omnimanage/pkg/model/web"
+	"github.com/xorium/omnimanage/pkg/utils/converter"
 )
 
 type ManufacturerService struct {
