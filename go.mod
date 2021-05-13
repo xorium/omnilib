@@ -1,4 +1,4 @@
-module omnilib
+module github.com/xorium/omnilib
 
 go 1.15
 
